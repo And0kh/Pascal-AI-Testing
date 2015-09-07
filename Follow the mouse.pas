@@ -1,30 +1,61 @@
 uses graphabc;
 
-procedure CircleDraw(x1,y1,c1: integer);
+procedure UpdateAICircle(mx, my, aic, m: integer);
+begin
+var aix, aiy: integer;
+aix:=320;
+aiy:=240;
+if (mx > aix) then begin 
+mx:= mx + m end;
+if (mx < aix) then begin 
+mx:= mx - m end;
+if (my > aiy) then begin 
+my:= my + m end;
+if (my < aiy) then begin 
+my:= my - m end;
+circle(aix, aiy, aic);
+floodfill(aix, aiy, clred);
+end;
+
+procedure CircleDraw(x1, y1, c1: integer);
+begin
+circle(x1, y1, c1);
+floodfill(x1, y1, clblack);
+end;
+
+procedure Mouse(x, y, mb: integer);
+begin
+MoveTo(x, y);
+end;
+
+procedure MouseMove(x, y, mb: integer);
 begin
 clearwindow;
-circle(x1,y1,c1);
-floodfill(x1,y1,clblack);
+if mb=0 then CircleDraw(x, y, 10);
+//UpdateAICircle(x, y, 10, 1);
+Window.Title := (IntToStr(x) + ',' + IntToStr(y));
+sleep(1);
 end;
 
-procedure Mouse(x,y,mb: integer);
+procedure keyPressed(Key: integer);
 begin
-MoveTo(x,y);
+case Key of
+VK_Delete: closewindow;
+end;
 end;
 
-procedure MouseMove(x,y,mb: integer);
+procedure KeyPress(Ch: char);
 begin
-var xt,yt,t: string;
-clearwindow;
-if mb=0 then CircleDraw(x,y,10);
-xt:=IntToStr(x);
-yt:=IntToStr(y);
-t:= xt + ',' + yt;
-Window.Title := (t);
 end;
 
 begin
-setwindowsize(640,480);
+setwindowsize(640, 480);
 onMouseDown := Mouse;
 OnMouseMove := MouseMove;
+OnKeyDown:=keyPressed;
+OnKeyPress:=KeyPress;
+while(1<2) do
+begin
+UpdateAICircle(1, 1, 5, 1);
+end;
 end.
