@@ -14,7 +14,7 @@ my:= my + m end;
 if (my < aiy) then begin 
 my:= my - m end;
 circle(aix, aiy, aic);
-floodfill(aix, aiy, clred);
+//floodfill(aix, aiy, clred);
 end;
 
 procedure CircleDraw(x1, y1, c1: integer);
@@ -34,7 +34,8 @@ clearwindow;
 if mb=0 then CircleDraw(x, y, 10);
 //UpdateAICircle(x, y, 10, 1);
 Window.Title := (IntToStr(x) + ',' + IntToStr(y));
-sleep(1);
+//redraw;
+//leep(1);
 end;
 
 procedure keyPressed(Key: integer);
@@ -50,6 +51,7 @@ end;
 
 begin
 setwindowsize(640, 480);
+//lockdrawing;
 onMouseDown := Mouse;
 OnMouseMove := MouseMove;
 OnKeyDown:=keyPressed;
@@ -57,5 +59,6 @@ OnKeyPress:=KeyPress;
 while(1<2) do
 begin
 UpdateAICircle(1, 1, 5, 1);
+//redraw;
 end;
 end.
