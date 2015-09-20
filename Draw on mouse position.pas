@@ -58,7 +58,7 @@ OnKeyDown:=keyPressed;
 OnKeyPress:=KeyPress;
 while(1<2) do
 begin
-UpdateAICircle(1, 1, 5, 1);
+//UpdateAICircle(1, 1, 5, 1);
 //redraw;
 end;
 end.
