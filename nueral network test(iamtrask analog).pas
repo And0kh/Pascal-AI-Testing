@@ -23,6 +23,6 @@ begin
     for il01:=1 to 4 do
       for il02:=1 to 3 do
         l0[il01, il02]:=x[il01, il02];
-    
-end;
+        
+  end;
 end.
