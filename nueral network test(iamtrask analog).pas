@@ -6,7 +6,7 @@ l0 : array[1..4, 1..3] of byte;
 y : array[1..4, 1..1] of byte:=((0), (0), (1), (1));
 syn0 : array[0..1, 1..3] of real;
 l1, l1_error, l1_delta : byte;
-i, isyn0, il01, il02, syn1 : integer;
+i, isyn0, il01, il02, syn1, idotfunc : integer;
 
 function nonlin(x : real; deriv : boolean): real;
 begin
@@ -23,6 +23,13 @@ begin
     for il01:=1 to 4 do
       for il02:=1 to 3 do
         l0[il01, il02]:=x[il01, il02];
-        
+    
+    l1
+    for idotfunc := 1 to 3 do
+        for j := 1 to 2 do begin
+            c[i,j] := 0;
+            for k := 1 to 4 do
+                c[idotfunc,j] := c[idotfunc,j] + a[idotfunc,k] * b[k,j];
+        end;
   end;
 end.
