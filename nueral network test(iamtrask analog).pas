@@ -24,12 +24,7 @@ begin
       for il02:=1 to 3 do
         l0[il01, il02]:=x[il01, il02];
     
-    l1
-    for idotfunc := 1 to 3 do
-        for j := 1 to 2 do begin
-            c[i,j] := 0;
-            for k := 1 to 4 do
-                c[idotfunc,j] := c[idotfunc,j] + a[idotfunc,k] * b[k,j];
-        end;
+    //l1
+
   end;
 end.
