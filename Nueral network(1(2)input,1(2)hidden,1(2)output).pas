@@ -7,7 +7,7 @@ i1, i2,
 h1, h2, 
 outA1, outA2, o1r, o2r, Outo1r, Outo2r, 
 h1net, h2net,
-E1, E2, dEtotal, dEerror1, dEerror2:real;
+dE1, dE2, dEtotal, dEerror1, dEerror2:real;
 
 //The logistics function(sigmoid function)
 function logisticsFunction(x:real):real;
@@ -37,11 +37,12 @@ o2r:=w7 * h1 + w8 * h2 + b2 * 1;
 Outo2r:=(logisticsFunction(o2r));
 
 //Error calculation
-E1:=(sqr(outA1 - Outo1r)/2);
-E2:=(sqr(outA2 - Outo2r)/2);
-dEtotal:=E1 + E2;
+dE1:=(sqr(outA1 - Outo1r)/2);
+dE2:=(sqr(outA2 - Outo2r)/2);
+dEtotal:=dE1 + dE2;
 dEerror1:=(-(outA1 - Outo1r));
 dEerror2:=(-(outA2 - Outo2r));
-
+w5:=w5-0.4*(dEerror1*(Outo1r*(1-Outo1r))*(1*h1*power(w5,(1-1))+0+0));
+writeln(w5);
 
 end.
