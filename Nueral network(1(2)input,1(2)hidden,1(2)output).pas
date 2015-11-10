@@ -1,7 +1,7 @@
 program in2h12iou2;
 
 var 
-a,b,
+a,b,or1ats,or2ats,
 w1, w2, w3, w4, w5, w6, w7, w8,
 w1u, w2u, w3u, w4u, w5u, w6u, w7u, w8u,
 b1, b2, 
@@ -43,8 +43,9 @@ Outo1r:=(logisticsFunction(o1r));
 
 o2r:=w7 * h1out + w8 * h2out + b2 * 1;
 Outo2r:=(logisticsFunction(o2r));
+if(i=1) then begin or1ats:=Outo1r; or2ats:=Outo2r;end;
 
-writeln(Outo1r,' ',Outo2r);
+//writeln(Outo1r,' ',Outo2r);
 
 //Error calculation
 dE1:=(sqr(outA1 - Outo1r)/2);
@@ -84,5 +85,10 @@ Outo1r:=(logisticsFunction(o1r));
 o2r:=w7 * h1out + w8 * h2out + b2 * 1;
 Outo2r:=(logisticsFunction(o2r));}
 end;
+
+writeln('Output of the program on 1 loop- ',or1ats,' and ', or2ats);
+writeln('And at the end of the program after the ',i,' loop- ',Outo1r,' and ',Outo2r);
+writeln('Differnace between the first- ',or1ats-Outo1r);
+writeln('Differnace between the second- ',or2ats-Outo2r);
 
 end.
