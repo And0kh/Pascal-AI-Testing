@@ -1,7 +1,8 @@
 program in2h12iou2;
 
 var 
-w1, w2, w3, w4, w5, w6, w7, w8, 
+w1, w2, w3, w4, w5, w6, w7, w8,
+w1u, w2u, w3u, w4u, w5u, w6u, w7u, w8u,
 b1, b2, 
 i1, i2, 
 h1, h2, 
@@ -42,7 +43,9 @@ dE2:=(sqr(outA2 - Outo2r)/2);
 dEtotal:=dE1 + dE2;
 dEerror1:=(-(outA1 - Outo1r));
 dEerror2:=(-(outA2 - Outo2r));
-w5:=w5-0.4*(dEerror1*(Outo1r*(1-Outo1r))*(1*h1*power(w5,(1-1))+0+0));
-writeln(w5);
+w5u:=w5-0.4*(dEerror1*(Outo1r*(1-Outo1r))*(1*h1*power(w5,(1-1))+0+0));
+writeln(w5u);
+w6u:=w6-0.4*(dEerror1*(outo2r*(1-Outo2r))*(1*h2*power(w6,(1-1))+0+0));
+writeln(w6u);
 
 end.
