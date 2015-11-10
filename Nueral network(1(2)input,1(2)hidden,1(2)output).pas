@@ -10,7 +10,7 @@ h1out, h2out,
 outA1, outA2, o1r, o2r, Outo1r, Outo2r, 
 h1net, h2net,
 dE1, dE2, dEtotal, dEerror1, dEerror2:real;
-i:integer;
+i,c:integer;
 
 //The logistics function(sigmoid function)
 function logisticsFunction(x:real):real;
@@ -26,7 +26,10 @@ b1:=0.35;b2:=0.6;
 i1:=0.05;i2:=0.1;
 outA1:=0.01;outA2:=0.99;
 
-for i:=1 to 10000 do
+writeln('How many loops do you want the program to run through?(Сколько петель вы хотите запустить программу через?)');
+readln(c);
+
+for i:=1 to c do
 begin
 //Forward propagation
 h1net:=w1 * i1 + w2 * i2 + b1 * 1;
