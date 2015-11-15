@@ -4,16 +4,18 @@ uses graphabc;
 
 var
 input:array[0..9]of real;
-i_to_h1:array[1..9,1..9]of real;
-h1_to_h2:array[1..9,1..6]of real;
-h2_to_o:array[1..6,1..4]of real;
-h2_to_o_u:array[1..6,1..4]of real;
-h1_net:array[1..9]of real;
-h1_out:array[1..9]of real;
-h2_net:array[1..6]of real;
-h2_out:array[1..6]of real;
-o_net:array[1..4]of real;
-o_out:array[1..4]of real;
+witoh1:array[1..9,1..9]of real;
+witoh1u:array[1..9,1..9]of real;
+wh1toh2:array[1..9,1..6]of real;
+wh1toh2u:array[1..9,1..6]of real;
+wh2too:array[1..6,1..4]of real;
+wh2toou:array[1..6,1..4]of real;
+h1net:array[1..9]of real;
+h1out:array[1..9]of real;
+h2net:array[1..6]of real;
+h2out:array[1..6]of real;
+onet:array[1..4]of real;
+oout:array[1..4]of real;
 oE:array[1..4]of real;
 iteration:longint;
 dEerror1,dEerror2,dEerror3,dEerror4:real;
@@ -58,15 +60,15 @@ begin
   //Weights from input to hidden1
   for ix:=1 to 9 do
     for node:=1 to 9 do
-      i_to_h1[ix,node]:=random;
+      witoh1[ix,node]:=random;
   //Weights from hidden1 to hidden2
   for ix:=1 to 9 do
     for node:=1 to 6 do
-      h1_to_h2[ix,node]:=random;
+      wh1toh2[ix,node]:=random;
   //Weights from hidden 2 to output
   for ix:=1 to 6 do
     for node:=1 to 4 do
-      h2_to_o[ix,node]:=random;
+      wh2too[ix,node]:=random;
 end;
 
 procedure Forward_in_to_hid1();
@@ -74,14 +76,14 @@ begin
   var ix,node:integer;
   for ix:=1 to 9 do
     for node:=1 to 9 do
-      h1_net[node]:=h1_net[node]+input[ix]*i_to_h1[ix,node];
+      h1net[node]:=h1net[node]+input[ix]*witoh1[ix,node];
 end;
 
 procedure Sigmoid_hidden1_net();
 begin
   var i:integer;
   for i:=1 to 9 do
-    h1_out[i]:=Sigmoid(h1_net[i]);
+    h1out[i]:=Sigmoid(h1net[i]);
 end;
 
 procedure Forward_hid1_to_hid2();
@@ -89,14 +91,14 @@ begin
   var ix,node:integer;
   for ix:=1 to 9 do
     for node:=1 to 6 do
-      h2_net[node]:=h2_net[node]+h1_out[ix]*h1_to_h2[ix,node];
+      h2net[node]:=h2net[node]+h1out[ix]*wh1toh2[ix,node];
 end;
 
 procedure Sigmoid_hidden2_net();
 begin
   var i:integer;
   for i:=1 to 6 do
-    h2_out[i]:=Sigmoid(h2_net[i]);
+    h2out[i]:=Sigmoid(h2net[i]);
 end;
 
 procedure Forward_hid2_to_out();
@@ -104,14 +106,14 @@ begin
   var ix,node:integer;
   for ix:=1 to 6 do
     for node:=1 to 4 do
-      o_net[node]:=o_net[node]+h2_out[ix]*h2_to_o[ix,node];
+      onet[node]:=onet[node]+h2out[ix]*wh2too[ix,node];
 end;
 
 procedure Sigmoid_output_out();
 begin
   var i:integer;
   for I:=1 to 4 do
-    o_out[i]:=Sigmoid(o_net[i]);
+    oout[i]:=Sigmoid(onet[i]);
 end;
 
 procedure ForwardPropagate();
@@ -127,17 +129,17 @@ end;
 procedure ResetValues();
 begin
   var i:integer;
-  for i:=1 to 9 do h1_net[i]:=0;
-  for i:=1 to 6 do h2_net[i]:=0;
-  for i:=1 to 4 do o_net[i]:=0;
+  for i:=1 to 9 do h1net[i]:=0;
+  for i:=1 to 6 do h2net[i]:=0;
+  for i:=1 to 4 do onet[i]:=0;
 end;
 
 procedure ErrorCalculation();
 begin
-  dEerror1:=(-(oE[1] - o_out[1]));
-  dEerror2:=(-(oE[2] - o_out[2]));
-  dEerror3:=(-(oE[3] - o_out[3]));
-  dEerror4:=(-(oE[4] - o_out[4]));
+  dEerror1:=(-(oE[1] - oout[1]));
+  dEerror2:=(-(oE[2] - oout[2]));
+  dEerror3:=(-(oE[3] - oout[3]));
+  dEerror4:=(-(oE[4] - oout[4]));
 end;
 
 procedure BackPropagate();
