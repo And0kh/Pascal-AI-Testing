@@ -4,21 +4,17 @@ uses graphabc;
 
 var
 input:array[0..9]of real;
-witoh1:array[1..9,1..9]of real;
-witoh1u:array[1..9,1..9]of real;
-wh1toh2:array[1..9,1..6]of real;
-wh1toh2u:array[1..9,1..6]of real;
-wh2too:array[1..6,1..4]of real;
-wh2toou:array[1..6,1..4]of real;
-h1net:array[1..9]of real;
-h1out:array[1..9]of real;
-h2net:array[1..6]of real;
-h2out:array[1..6]of real;
-onet:array[1..4]of real;
-oout:array[1..4]of real;
+witoh1:array[1..9,1..9]of real;witoh1u:array[1..9,1..9]of real;
+wh1toh2:array[1..9,1..6]of real;wh1toh2u:array[1..9,1..6]of real;
+wh2too:array[1..6,1..4]of real;wh2toou:array[1..6,1..4]of real;
+h1net:array[1..9]of real;h1out:array[1..9]of real;
+h2net:array[1..6]of real;h2out:array[1..6]of real;
+onet:array[1..4]of real;oout:array[1..4]of real;
 oE:array[1..4]of real;
 iteration:longint;
 dEerror1,dEerror2,dEerror3,dEerror4:real;
+TIn:array[1..5,1..9]of byte:=({+}(0,1,0,1,1,1,0,1,0),{-}(0,0,0,1,1,1,0,0,0),{*}(0,0,0,0,1,0,0,0,0),{x}(1,0,1,0,1,0,1,0,1),{/}(0,0,1,0,1,0,1,0,0){,{:(0,1,0,0,0,0,0,1,0)});
+TrOut:array[1..5,1..4]of byte:=((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,1,0),(0,0,0,1));
 
 
 function Sigmoid(x:real):real;
@@ -56,7 +52,7 @@ end;
 
 procedure Initiate_randweights();
 begin
-  var ix,node:integer;
+  var ix,node:byte;
   //Weights from input to hidden1
   for ix:=1 to 9 do
     for node:=1 to 9 do
@@ -73,7 +69,7 @@ end;
 
 procedure Forward_in_to_hid1();
 begin
-  var ix,node:integer;
+  var ix,node:byte;
   for ix:=1 to 9 do
     for node:=1 to 9 do
       h1net[node]:=h1net[node]+input[ix]*witoh1[ix,node];
@@ -81,14 +77,14 @@ end;
 
 procedure Sigmoid_hidden1_net();
 begin
-  var i:integer;
+  var i:byte;
   for i:=1 to 9 do
     h1out[i]:=Sigmoid(h1net[i]);
 end;
 
 procedure Forward_hid1_to_hid2();
 begin
-  var ix,node:integer;
+  var ix,node:byte;
   for ix:=1 to 9 do
     for node:=1 to 6 do
       h2net[node]:=h2net[node]+h1out[ix]*wh1toh2[ix,node];
@@ -96,14 +92,14 @@ end;
 
 procedure Sigmoid_hidden2_net();
 begin
-  var i:integer;
+  var i:byte;
   for i:=1 to 6 do
     h2out[i]:=Sigmoid(h2net[i]);
 end;
 
 procedure Forward_hid2_to_out();
 begin
-  var ix,node:integer;
+  var ix,node:byte;
   for ix:=1 to 6 do
     for node:=1 to 4 do
       onet[node]:=onet[node]+h2out[ix]*wh2too[ix,node];
@@ -111,7 +107,7 @@ end;
 
 procedure Sigmoid_output_out();
 begin
-  var i:integer;
+  var i:byte;
   for I:=1 to 4 do
     oout[i]:=Sigmoid(onet[i]);
 end;
@@ -128,7 +124,7 @@ end;
 
 procedure ResetValues();
 begin
-  var i:integer;
+  var i:byte;
   for i:=1 to 9 do h1net[i]:=0;
   for i:=1 to 6 do h2net[i]:=0;
   for i:=1 to 4 do onet[i]:=0;
