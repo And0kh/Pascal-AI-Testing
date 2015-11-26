@@ -12,9 +12,11 @@ h2net:array[1..6]of real;h2out:array[1..6]of real;
 onet:array[1..4]of real;oout:array[1..4]of real;
 oE:array[1..4]of real;
 iteration:longint;
-dEerror1,dEerror2,dEerror3,dEerror4:real;
+dEerror:array[1..4]of real;
 TIn:array[1..5,1..9]of byte:=({+}(0,1,0,1,1,1,0,1,0),{-}(0,0,0,1,1,1,0,0,0),{*}(0,0,0,0,1,0,0,0,0),{x}(1,0,1,0,1,0,1,0,1),{/}(0,0,1,0,1,0,1,0,0){,{:(0,1,0,0,0,0,0,1,0)});
 TrOut:array[1..5,1..4]of byte:=((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,1,0),(0,0,0,1));
+witoh1e:array[1..9,1..9]of real;wh1toh2e:array[1..9,1..6]of real;wh2tooe:array[1..6,1..4]of real;
+wh2tooet:array[1..6]of real;wh1toh2et:array[1..9]of real;
 
 
 function Sigmoid(x:real):real;
@@ -122,7 +124,7 @@ begin
   Sigmoid_output_out;
 end;
 
-procedure ResetValues();
+procedure ResetNNetValues();
 begin
   var i:byte;
   for i:=1 to 9 do h1net[i]:=0;
@@ -132,15 +134,29 @@ end;
 
 procedure ErrorCalculation();
 begin
-  dEerror1:=(-(oE[1] - oout[1]));
-  dEerror2:=(-(oE[2] - oout[2]));
-  dEerror3:=(-(oE[3] - oout[3]));
-  dEerror4:=(-(oE[4] - oout[4]));
+  var a:byte;
+  for a:=1 to 4 do dEerror[a]:=(-(oE[a] - oout[a]));
 end;
 
 procedure BackPropagate();
 begin
-  var ix,node:integer;
+  var ix,node,i:integer;
+  //Error calculation for weights in the third layer
+  for node:=1 to 6 do
+    for ix:=1 to 4 do
+      wh2toou[node,ix]:=dEerror[ix]*Derivative(oout[ix])*wh2too[node,ix];
+  //Error calculation for neurons in hidden layer 2
+  for node:=1 to 6 do
+    for ix:=1 to 4 do
+      wh2tooet[node]:=wh2tooet[node]+wh2tooe[node,ix];
+  //Error calculation for weights in the second layer
+  for node:=1 to 9 do
+    for ix:=1 to 6 do
+      wh1toh2e[node,ix]:=wh2tooet[ix]*Derivative(h2out[ix])*wh1toh2[node,ix];
+  //Error calculation for neurons in hidden layer 1
+  for node:=1 to 9 do
+    for ix:=1 to 6 do
+      wh1toh2et[node]:=wh1toh2et[node]+wh1toh2[node,ix]+wh2tooet[ix];
 end;
 
 procedure TrainNetwork();
@@ -148,7 +164,7 @@ begin
   var i:byte;
   for i:=1 to 6 do
   begin
-    ResetValues;
+    ResetNNetValues;
     ForwardPropagate;
     ErrorCalculation;
     BackPropagate;
@@ -158,7 +174,7 @@ end;
 begin
   GraphicsWindowSetup;
   Initiate_randweights;
-  input[1]:=0;input[2]:=1;input[3]:=0;input[4]:=1;input[5]:=1;input[6]:=1;input[7]:=0;input[8]:=1;input[9]:=0;
+  //input[1]:=0;input[2]:=1;input[3]:=0;input[4]:=1;input[5]:=1;input[6]:=1;input[7]:=0;input[8]:=1;input[9]:=0;
   for iteration:=1 to 50 do TrainNetwork;
   OnMouseDown := MouseDown;
 end.
