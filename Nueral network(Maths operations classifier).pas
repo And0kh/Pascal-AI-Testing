@@ -1,6 +1,8 @@
 program in9hi296ou4;
 
-uses graphabc;
+//uses graphabc;
+
+const n=0.4;
 
 var
 input:array[0..9]of real;
@@ -29,7 +31,7 @@ begin
   Result:=(x*(1-x));
 end;
 
-procedure GraphicsWindowSetup;
+{procedure GraphicsWindowSetup;
 begin
   //Graphics set up
   SetConsoleIO;
@@ -49,7 +51,7 @@ procedure MouseDown(x,y,mb: integer);
 begin
   if mb = 1 then floodfill(x,y,clBlack);
   if mb = 2 then begin clearwindow;line(200,0,200,600);line(400,0,400,600);line(0,200,600,200);line(0,400,600,400);line(0,600,600,600);line(602,0,602,600);end;
-end;
+end;}
 
 
 procedure Initiate_randweights();
@@ -128,23 +130,19 @@ procedure ResetNNetValues();
 begin
   var i:byte;
   for i:=1 to 9 do h1net[i]:=0;
-  for i:=1 to 6 do h2net[i]:=0;
-  for i:=1 to 4 do onet[i]:=0;
-end;
-
-procedure ErrorCalculation();
-begin
-  var a:byte;
-  for a:=1 to 4 do dEerror[a]:=(-(oE[a] - oout[a]));
+  for i:=1 to 6 do begin h2net[i]:=0;wh1toh2et[i]:=0;end;
+  for i:=1 to 4 do begin onet[i]:=0;wh2tooet[i]:=0;end;
 end;
 
 procedure BackPropagate();
 begin
-  var ix,node,i:integer;
+  var ix,node:integer;
+  //Error calculation for output neurons
+  for ix:=1 to 4 do dEerror[ix]:=(-(oE[ix] - oout[ix]));
   //Error calculation for weights in the third layer
   for node:=1 to 6 do
     for ix:=1 to 4 do
-      wh2toou[node,ix]:=dEerror[ix]*Derivative(oout[ix])*wh2too[node,ix];
+      wh2tooe[node,ix]:=dEerror[ix]*Derivative(oout[ix])*wh2too[node,ix];
   //Error calculation for neurons in hidden layer 2
   for node:=1 to 6 do
     for ix:=1 to 4 do
@@ -157,24 +155,48 @@ begin
   for node:=1 to 9 do
     for ix:=1 to 6 do
       wh1toh2et[node]:=wh1toh2et[node]+wh1toh2[node,ix]+wh2tooet[ix];
+  //Erroe calculation for weights in the first layer
+  for node:=1 to 9 do
+    for ix:=1 to 9 do
+      witoh1e[node,ix]:=witoh1e[node,ix]+Derivative(h1out[ix])+wh1toh2et[node];
+end;
+
+procedure UpdateWeights();
+begin
+  var node,ix:byte;
+  //Updating the weights in the first layer
+  for node:=1 to 9 do
+    for ix:=1 to 9 do
+      witoh1[node,ix]:=witoh1[node,ix]-n*witoh1e[node,ix];
+  //Updating the weights in the second layer
+  for node:=1 to 9 do
+    for ix:=1 to 6 do
+      wh1toh2[node,ix]:=wh1toh2[node,ix]-n*wh1toh2e[node,ix];
+  //Updating the weigths in the third layer
+  for node:=1 to 6 do
+    for ix:=1 to 4 do
+      wh2too[node,ix]:=wh2too[node,ix]-n*wh2tooe[node,ix];
 end;
 
 procedure TrainNetwork();
 begin
-  var i:byte;
-  for i:=1 to 6 do
+  var i,a:byte;
+  for i:=1 to 5 do
   begin
+    for a:=1 to 9 do input[a]:=TIn[i,a];
     ResetNNetValues;
     ForwardPropagate;
-    ErrorCalculation;
     BackPropagate;
+    UpdateWeights;
   end;
 end;
 
 begin
-  GraphicsWindowSetup;
+  //GraphicsWindowSetup;
   Initiate_randweights;
+  writeln(witoh1[1,1]);
   //input[1]:=0;input[2]:=1;input[3]:=0;input[4]:=1;input[5]:=1;input[6]:=1;input[7]:=0;input[8]:=1;input[9]:=0;
   for iteration:=1 to 50 do TrainNetwork;
-  OnMouseDown := MouseDown;
+  //OnMouseDown := MouseDown;
+  writeln(witoh1[1,1]);  
 end.
