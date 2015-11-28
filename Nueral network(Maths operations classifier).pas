@@ -1,11 +1,11 @@
 program in9hi296ou4;
 
-//uses graphabc;
+uses graphabc;
 
 const n=0.4;
 
 var
-input:array[0..9]of real;
+input,inputscan:array[0..9]of real;
 witoh1:array[1..9,1..9]of real;witoh1u:array[1..9,1..9]of real;
 wh1toh2:array[1..9,1..6]of real;wh1toh2u:array[1..9,1..6]of real;
 wh2too:array[1..6,1..4]of real;wh2toou:array[1..6,1..4]of real;
@@ -31,7 +31,7 @@ begin
   Result:=(x*(1-x));
 end;
 
-{procedure GraphicsWindowSetup;
+procedure GraphicsWindowSetup;
 begin
   //Graphics set up
   SetConsoleIO;
@@ -47,11 +47,38 @@ begin
   line(602,0,602,600);
 end;
 
+procedure Scan;
+begin
+  var a:byte;
+  if getpixel(100,100)=clBlack then inputscan[1]:=1 else inputscan[1]:=0;
+  if getpixel(300,100)=clBlack then inputscan[2]:=1 else inputscan[2]:=0;
+  if getpixel(500,100)=clBlack then inputscan[3]:=1 else inputscan[3]:=0;
+  if getpixel(100,300)=clBlack then inputscan[4]:=1 else inputscan[4]:=0;
+  if getpixel(300,300)=clBlack then inputscan[5]:=1 else inputscan[5]:=0;
+  if getpixel(500,300)=clBlack then inputscan[6]:=1 else inputscan[6]:=0;
+  if getpixel(100,500)=clBlack then inputscan[7]:=1 else inputscan[7]:=0;
+  if getpixel(300,500)=clBlack then inputscan[8]:=1 else inputscan[8]:=0;
+  if getpixel(500,500)=clBlack then inputscan[9]:=1 else inputscan[9]:=0;
+  for a:=1 to 9 do write(inputscan[a],' ');
+  writeln(getpixel(100,100));
+end;
+
+procedure keyPressed(Key: integer);
+begin
+  case Key of
+   VK_return:Scan;;
+  end;
+end;
+
+procedure KeyPress(Ch: char);
+begin
+end;
+
 procedure MouseDown(x,y,mb: integer);
 begin
   if mb = 1 then floodfill(x,y,clBlack);
   if mb = 2 then begin clearwindow;line(200,0,200,600);line(400,0,400,600);line(0,200,600,200);line(0,400,600,400);line(0,600,600,600);line(602,0,602,600);end;
-end;}
+end;
 
 
 procedure Initiate_randweights();
@@ -192,11 +219,13 @@ begin
 end;
 
 begin
-  //GraphicsWindowSetup;
+  GraphicsWindowSetup;
   Initiate_randweights;
   writeln(witoh1[1,1]);
   //input[1]:=0;input[2]:=1;input[3]:=0;input[4]:=1;input[5]:=1;input[6]:=1;input[7]:=0;input[8]:=1;input[9]:=0;
   for iteration:=1 to 50 do TrainNetwork;
-  //OnMouseDown := MouseDown;
-  writeln(witoh1[1,1]);  
+  OnMouseDown := MouseDown;
+  OnKeyDown:=keyPressed;
+  OnKeyPress:=KeyPress;
+  writeln(witoh1[1,1]); 
 end.

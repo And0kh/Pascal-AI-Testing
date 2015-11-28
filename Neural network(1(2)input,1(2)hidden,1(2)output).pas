@@ -78,5 +78,6 @@ writeln('Output of the program on 1 loop- ',or1ats,' and ', or2ats);
 writeln('And at the end of the program after the ',i,' loop- ',Outo1r,' and ',Outo2r);
 writeln('Differnace between the first- ',or1ats-Outo1r);
 writeln('Differnace between the second- ',or2ats-Outo2r);
+writeln('Program run time:',milliseconds/1000,' seconds');
 
 end.
