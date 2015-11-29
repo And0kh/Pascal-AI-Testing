@@ -1,25 +1,24 @@
 program in9hi296ou4;
 
-uses graphabc;
+//uses graphabc;
 
-const n=0.4;
+const n=0.0000001;
 
 var
 input,inputscan:array[0..9]of real;
-witoh1:array[1..9,1..9]of real;witoh1u:array[1..9,1..9]of real;
-wh1toh2:array[1..9,1..6]of real;wh1toh2u:array[1..9,1..6]of real;
-wh2too:array[1..6,1..4]of real;wh2toou:array[1..6,1..4]of real;
+witoh1:array[1..9,1..9]of real;//witoh1u:array[1..9,1..9]of real;
+wh1toh2:array[1..9,1..6]of real;//wh1toh2u:array[1..9,1..6]of real;
+wh2too:array[1..6,1..4]of real;//wh2toou:array[1..6,1..4]of real;
 h1net:array[1..9]of real;h1out:array[1..9]of real;
 h2net:array[1..6]of real;h2out:array[1..6]of real;
 onet:array[1..4]of real;oout:array[1..4]of real;
 oE:array[1..4]of real;
 iteration:longint;
 dEerror:array[1..4]of real;
-TIn:array[1..5,1..9]of byte:=({+}(0,1,0,1,1,1,0,1,0),{-}(0,0,0,1,1,1,0,0,0),{*}(0,0,0,0,1,0,0,0,0),{x}(1,0,1,0,1,0,1,0,1),{/}(0,0,1,0,1,0,1,0,0){,{:(0,1,0,0,0,0,0,1,0)});
-TrOut:array[1..5,1..4]of byte:=((1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,1,0),(0,0,0,1));
+TIn:array[1..4,1..9]of byte:=({+}(0,1,0,1,1,1,0,1,0),{-}(0,0,0,1,1,1,0,0,0){,{*(0,0,0,0,1,0,0,0,0)},{x}(1,0,1,0,1,0,1,0,1),{/}(0,0,1,0,1,0,1,0,0){,{:(0,1,0,0,0,0,0,1,0)});
+TrOut:array[1..4,1..4]of byte:=((1,0,0,0),(0,1,0,0){,(0,0,1,0)},(0,0,1,0),(0,0,0,1));
 witoh1e:array[1..9,1..9]of real;wh1toh2e:array[1..9,1..6]of real;wh2tooe:array[1..6,1..4]of real;
 wh2tooet:array[1..6]of real;wh1toh2et:array[1..9]of real;
-
 
 function Sigmoid(x:real):real;
 begin
@@ -31,7 +30,7 @@ begin
   Result:=(x*(1-x));
 end;
 
-procedure GraphicsWindowSetup;
+{procedure GraphicsWindowSetup;
 begin
   //Graphics set up
   SetConsoleIO;
@@ -47,42 +46,15 @@ begin
   line(602,0,602,600);
 end;
 
-procedure Scan;
-begin
-  var a:byte;
-  if getpixel(100,100)=clBlack then inputscan[1]:=1 else inputscan[1]:=0;
-  if getpixel(300,100)=clBlack then inputscan[2]:=1 else inputscan[2]:=0;
-  if getpixel(500,100)=clBlack then inputscan[3]:=1 else inputscan[3]:=0;
-  if getpixel(100,300)=clBlack then inputscan[4]:=1 else inputscan[4]:=0;
-  if getpixel(300,300)=clBlack then inputscan[5]:=1 else inputscan[5]:=0;
-  if getpixel(500,300)=clBlack then inputscan[6]:=1 else inputscan[6]:=0;
-  if getpixel(100,500)=clBlack then inputscan[7]:=1 else inputscan[7]:=0;
-  if getpixel(300,500)=clBlack then inputscan[8]:=1 else inputscan[8]:=0;
-  if getpixel(500,500)=clBlack then inputscan[9]:=1 else inputscan[9]:=0;
-  for a:=1 to 9 do write(inputscan[a],' ');
-  writeln(getpixel(100,100));
-end;
-
-procedure keyPressed(Key: integer);
-begin
-  case Key of
-   VK_return:Scan;;
-  end;
-end;
-
-procedure KeyPress(Ch: char);
-begin
-end;
-
 procedure MouseDown(x,y,mb: integer);
 begin
   if mb = 1 then floodfill(x,y,clBlack);
   if mb = 2 then begin clearwindow;line(200,0,200,600);line(400,0,400,600);line(0,200,600,200);line(0,400,600,400);line(0,600,600,600);line(602,0,602,600);end;
-end;
-
+end;}
 
 procedure Initiate_randweights();
 begin
+  Randomize(1);
   var ix,node:byte;
   //Weights from input to hidden1
   for ix:=1 to 9 do
@@ -139,7 +111,7 @@ end;
 procedure Sigmoid_output_out();
 begin
   var i:byte;
-  for I:=1 to 4 do
+  for i:=1 to 4 do
     oout[i]:=Sigmoid(onet[i]);
 end;
 
@@ -205,27 +177,64 @@ begin
       wh2too[node,ix]:=wh2too[node,ix]-n*wh2tooe[node,ix];
 end;
 
+{procedure Scan;
+begin
+  var a:byte;
+  if getpixel(100,100)=rgb(255,255,255) then input[1]:=0 else input[1]:=1;
+  if getpixel(300,100)=rgb(255,255,255) then input[2]:=0 else input[2]:=1;
+  if getpixel(500,100)=rgb(255,255,255) then input[3]:=0 else input[3]:=1;
+  if getpixel(100,300)=rgb(255,255,255) then input[4]:=0 else input[4]:=1;
+  if getpixel(300,300)=rgb(255,255,255) then input[5]:=0 else input[5]:=1;
+  if getpixel(500,300)=rgb(255,255,255) then input[6]:=0 else input[6]:=1;
+  if getpixel(100,500)=rgb(255,255,255) then input[7]:=0 else input[7]:=1;
+  if getpixel(300,500)=rgb(255,255,255) then input[8]:=0 else input[8]:=1;
+  if getpixel(500,500)=rgb(255,255,255) then input[9]:=0 else input[9]:=1;
+  ResetNNetValues;
+  ForwardPropagate;
+  for a:=1 to 4 do write(oout[a],' ');
+  writeln;
+end;}
+
+{procedure keyPressed(Key: integer);
+begin
+  case Key of
+   VK_return:Scan;
+  end;
+end;
+
+procedure KeyPress(Ch: char);
+begin
+end;}
+
 procedure TrainNetwork();
 begin
   var i,a:byte;
-  for i:=1 to 5 do
+  for i:=1 to 4 do
   begin
     for a:=1 to 9 do input[a]:=TIn[i,a];
-    ResetNNetValues;
+    for a:=1 to 4 do oE[a]:=TrOut[i,a];
     ForwardPropagate;
     BackPropagate;
     UpdateWeights;
+    ResetNNetValues;
   end;
 end;
 
 begin
-  GraphicsWindowSetup;
+  //GraphicsWindowSetup;
   Initiate_randweights;
   writeln(witoh1[1,1]);
-  //input[1]:=0;input[2]:=1;input[3]:=0;input[4]:=1;input[5]:=1;input[6]:=1;input[7]:=0;input[8]:=1;input[9]:=0;
-  for iteration:=1 to 50 do TrainNetwork;
-  OnMouseDown := MouseDown;
+  ForwardPropagate;
+  for iteration:=1 to 4 do write(oout[iteration],' ');
+  writeln;
+  for iteration:=1 to 100000 do TrainNetwork;
+  writeln(milliseconds/1000);
+  writeln(witoh1[1,1]);
+  {OnMouseDown := MouseDown;
   OnKeyDown:=keyPressed;
-  OnKeyPress:=KeyPress;
-  writeln(witoh1[1,1]); 
+  OnKeyPress:=KeyPress;}
+  input[1]:=0;input[2]:=0;input[3]:=0;input[4]:=0;input[5]:=0;input[6]:=0;input[7]:=0;input[8]:=0;input[9]:=0;
+  ForwardPropagate;
+  for iteration:=1 to 4 do write(oout[iteration],' ');
+  writeln;
 end.
