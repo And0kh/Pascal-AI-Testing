@@ -235,7 +235,7 @@ begin
   GraphicsWindowSetup;
   Initiate_randweights;
   writeln(witoh1[1,1]);
-  for iteration:=1 to 100000 do TrainNetwork;
+  for iteration:=1 to 10000 do TrainNetwork;
   writeln(milliseconds/1000);
   writeln(witoh1[1,1]);
   OnMouseDown := MouseDown;
