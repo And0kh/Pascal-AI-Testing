@@ -15,12 +15,10 @@ with gzip.open('C:\Users\AO\Desktop\Programming\Pascal-AI-Testing\mnist.pkl.gz',
 train_x, train_y = train_set
 a = array
 
-#training_inputs = [np.reshape(x, (784, 1)) for x in train_set[0]]
-
-fo = open("C:/Users/AO/Desktop/output.txt", "w")
-a = train_x[0]
-for y in xrange(1):
-    for x in xrange(783):
+fo = open("C:/Users/AO/Desktop/output(50000).txt", "w")
+for y in xrange(49999):
+    a = train_x[y]
+    for x in xrange(784):
         print(a[x],end=' ',file=fo)
     print(file=fo)    
     print(train_y[y],file=fo)
